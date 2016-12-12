@@ -1,4 +1,4 @@
-﻿namespace CqrsEssentials.Autofac.Tests
+﻿namespace CqrsEssentials.Autofac.Tests.Queries
 {
 	public class TestQuery : IQuery<string>
 	{

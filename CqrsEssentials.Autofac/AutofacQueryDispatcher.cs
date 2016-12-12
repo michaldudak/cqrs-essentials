@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -18,33 +19,55 @@ namespace CqrsEssentials.Autofac
 		{
 			using (var scope = _lifetimeScope.BeginLifetimeScope())
 			{
-				var asyncGenericType = typeof(IAsyncQueryHandler<,>);
-				var closedAsyncGeneric = asyncGenericType.MakeGenericType(query.GetType(), typeof(TResult));
-
 				object asyncHandler;
-				if (scope.TryResolve(closedAsyncGeneric, out asyncHandler))
+				object syncHandler;
+
+				var asyncHandlerExists = TryGetAsyncHandler(scope, query, out asyncHandler);
+				var syncHandlerExists = TryGetSyncHandler(scope, query, out syncHandler);
+
+				if (asyncHandlerExists && syncHandlerExists)
 				{
-					var result = asyncHandler
+					throw new MultipleQueryHandlersDefinedException(GetCommandName(query));
+				}
+
+				if (!asyncHandlerExists && !syncHandlerExists)
+				{
+					throw new HandlerNotFoundException(GetCommandName(query));
+				}
+
+				object result;
+				if (asyncHandlerExists)
+				{
+					result = asyncHandler
 						.GetType()
 						.GetRuntimeMethod("HandleAsync", new[] { query.GetType(), typeof(CancellationToken) })
 						.Invoke(asyncHandler, new object[] { query, cancellationToken });
 
 					return await (Task<TResult>)result;
 				}
-
-				var syncGenericType = typeof(IQueryHandler<,>);
-				var closedSyncGeneric = syncGenericType.MakeGenericType(query.GetType(), typeof(TResult));
-
-				object syncHandler;
-				if (scope.TryResolve(closedSyncGeneric, out syncHandler))
-				{
-					var result = syncHandler.GetType().GetRuntimeMethod("Handle", new[] { query.GetType() }).Invoke(syncHandler, new[] { query });
-					return (TResult)result;
-				}
-
-				var typeName = query.GetType().Name;
-				throw new HandlerNotFoundException(typeName);
+				
+				result = syncHandler.GetType().GetRuntimeMethod("Handle", new[] { query.GetType() }).Invoke(syncHandler, new object[] { query });
+				return (TResult)result;
 			}
+		}
+
+		private static bool TryGetAsyncHandler<TResult>(ILifetimeScope scope, IQuery<TResult> query, out object handler)
+		{
+			var asyncGenericType = typeof(IAsyncQueryHandler<,>);
+			var closedAsyncGeneric = asyncGenericType.MakeGenericType(query.GetType(), typeof(TResult));
+			return scope.TryResolve(closedAsyncGeneric, out handler);
+		}
+
+		private static bool TryGetSyncHandler<TResult>(ILifetimeScope scope, IQuery<TResult> query, out object handler)
+		{
+			var asyncGenericType = typeof(IQueryHandler<,>);
+			var closedAsyncGeneric = asyncGenericType.MakeGenericType(query.GetType(), typeof(TResult));
+			return scope.TryResolve(closedAsyncGeneric, out handler);
+		}
+
+		private static string GetCommandName(object command)
+		{
+			return command.GetType().Name;
 		}
 	}
 }

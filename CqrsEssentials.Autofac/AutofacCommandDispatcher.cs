@@ -26,26 +26,39 @@ namespace CqrsEssentials.Autofac
 			using (var scope = _lifetimeScope.BeginLifetimeScope())
 			{
 				IAsyncCommandHandler<TCommand> asyncHandler;
-				if (scope.TryResolve(out asyncHandler))
-				{
-					HandlerExecuting(command);
-					await asyncHandler.HandleAsync(command, cancellationToken);
-					HandlerExecuted(command);
-					return;
-				}
-
 				ICommandHandler<TCommand> syncHandler;
-				if (scope.TryResolve(out syncHandler))
+
+				var asyncHandlerExists = scope.TryResolve(out asyncHandler);
+				var syncHandlerExists = scope.TryResolve(out syncHandler);
+
+				if (asyncHandlerExists && syncHandlerExists)
 				{
-					HandlerExecuting(command);
-					syncHandler.Handle(command);
-					HandlerExecuted(command);
-					return;
+					throw new MultipleCommandHandlersDefinedException(GetCommandName(command));
 				}
 
-				var typeName = command.GetType().Name;
-				throw new HandlerNotFoundException(typeName);
+				if (!asyncHandlerExists && !syncHandlerExists)
+				{
+					throw new HandlerNotFoundException(GetCommandName(command));
+				}
+				
+				HandlerExecuting(command);
+
+				if (asyncHandlerExists)
+				{
+					await asyncHandler.HandleAsync(command, cancellationToken);
+				}
+				else
+				{
+					syncHandler.Handle(command);
+				}
+
+				HandlerExecuted(command);
 			}
+		}
+
+		private static string GetCommandName(object command)
+		{
+			return command.GetType().Name;
 		}
 	}
 }

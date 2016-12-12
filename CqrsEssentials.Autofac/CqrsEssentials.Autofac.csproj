@@ -44,6 +44,8 @@
     <Compile Include="AutofacQueryDispatcher.cs" />
     <Compile Include="CqrsEssentialsAutofacModule.cs" />
     <Compile Include="HandlerNotFoundException.cs" />
+    <Compile Include="MultipleCommandHandlersDefinedException.cs" />
+    <Compile Include="MultipleQueryHandlersDefinedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
