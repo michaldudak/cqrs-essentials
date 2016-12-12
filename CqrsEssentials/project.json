@@ -4,11 +4,9 @@
 	"title": "CQRS Essentials",
 	"description": "Provides interfaces for CQRS objects like commands, queries and events.",
 	"authors": [
-		"Michał Dudak <michal@dudak.me>"
+		"Michał Dudak"
 	],
-	"dependencies": {
-
-	},
+	"dependencies": { },
 	"frameworks": {
 		"netstandard1.0": {
 			"dependencies": {
@@ -18,5 +16,20 @@
 		},
 		"net46": { },
 		"net40": { }
+	},
+	"packOptions": {
+		"licenseUrl": "https://github.com/michaldudak/cqrs-essentials/blob/master/LICENSE.md",
+		"releaseNotes": "First public release",
+		"repository": {
+			"type": "git",
+			"url": "https://github.com/michaldudak/cqrs-essentials.git"
+		},
+		"tags": [
+			"CQRS",
+			"command",
+			"query",
+			"event",
+			"dispatcher"
+		]
 	}
 }

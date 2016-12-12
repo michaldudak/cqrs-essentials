@@ -1,15 +1,36 @@
 ﻿{
+	"name": "CQRSEssentials.Autofac",
+	"version": "1.0.0-beta1",
+	"title": "CQRS Essentials - Autofac integration",
+	"description": "Provides implementation for CQRS command, query and event dispatchers using Autofac.",
+	"authors": [
+		"Michał Dudak"
+	],
 	"dependencies": {
 		"Autofac": "4.1.0",
-		"Microsoft.CSharp": "4.0.1",
-		"Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-		"NETStandard.Library": "1.6.0",
-		"CqrsEssentials": {
-			"target": "project"
-		}
+		"CqrsEssentials": "1.0.0-beta1"
 	},
 	"frameworks": {
-		"netstandard1.1": { },
-		"net46": { }
+		"netstandard1.1": {
+			"NETStandard.Library": "1.6.0",
+			"Microsoft.NETCore.Portable.Compatibility": "1.0.1"
+		},
+		"net45": {}
+	},
+	"packOptions": {
+		"licenseUrl": "https://github.com/michaldudak/cqrs-essentials/blob/master/LICENSE.md",
+		"releaseNotes": "First public release",
+		"repository": {
+			"type": "git",
+			"url": "https://github.com/michaldudak/cqrs-essentials.git"
+		},
+		"tags": [
+			"CQRS",
+			"Autofac",
+			"command",
+			"query",
+			"event",
+			"dispatcher"
+		]
 	}
 }
