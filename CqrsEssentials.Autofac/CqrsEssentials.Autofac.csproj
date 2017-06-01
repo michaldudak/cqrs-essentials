@@ -2,14 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.2</TargetFramework>
+    <PackageId>CQRSEssentials.Autofac</PackageId>
+    <Version>1.0.0-beta1</Version>
+    <Authors>Michał Dudak &lt;michal@dudak.me&gt;</Authors>
+    <Company />
+    <Product>CQRSEssentials Autofac</Product>
+    <Description>Provides implementation for CQRS command, query and event dispatchers using Autofac.</Description>
+    <Copyright></Copyright>
+    <PackageLicenseUrl>https://github.com/michaldudak/cqrs-essentials/blob/master/LICENSE.md</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/michaldudak/cqrs-essentials.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>CQRS, Autofac, command, query, event, dispatcher</PackageTags>
+    <PackageReleaseNotes>First public release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CqrsEssentials\CqrsEssentials.csproj" />
+    <PackageReference Include="CqrsEssentials" Version="1.0.0-beta1" />
   </ItemGroup>
 
 </Project>

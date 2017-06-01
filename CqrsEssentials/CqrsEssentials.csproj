@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
+    <Authors>Michał Dudak &lt;michal@dudak.me&gt;</Authors>
+    <Company />
+    <Description>Provides interfaces for CQRS objects like commands, queries and events.</Description>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0-beta1</Version>
+    <PackageId>CQRSEssentials</PackageId>
+    <PackageReleaseNotes>First public release</PackageReleaseNotes>
+    <PackageTags>CQRS, command, query, event, dispatcher</PackageTags>
+    <Product>CQRS Essentials</Product>
+    <PackageLicenseUrl>https://github.com/michaldudak/cqrs-essentials/blob/master/LICENSE.md</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/michaldudak/cqrs-essentials.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
 </Project>
