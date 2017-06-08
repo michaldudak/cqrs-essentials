@@ -7,14 +7,16 @@
     <Description>Provides interfaces for CQRS objects like commands, queries and events.</Description>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.0-beta1</Version>
+    <Version>1.0.0</Version>
     <PackageId>CqrsEssentials</PackageId>
-    <PackageReleaseNotes>First public release</PackageReleaseNotes>
+    <PackageReleaseNotes>First stable public release.</PackageReleaseNotes>
     <PackageTags>CQRS, command, query, event, dispatcher</PackageTags>
     <Product>CQRS Essentials</Product>
     <PackageLicenseUrl>https://github.com/michaldudak/cqrs-essentials/blob/master/LICENSE.md</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/michaldudak/cqrs-essentials.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/michaldudak/cqrs-essentials</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
