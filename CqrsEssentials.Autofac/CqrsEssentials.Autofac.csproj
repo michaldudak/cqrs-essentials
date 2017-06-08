@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.2</TargetFramework>
-    <PackageId>CQRSEssentials.Autofac</PackageId>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <PackageId>CqrsEssentials.Autofac</PackageId>
     <Version>1.0.0-beta1</Version>
     <Authors>Michał Dudak &lt;michal@dudak.me&gt;</Authors>
     <Company />
-    <Product>CQRSEssentials Autofac</Product>
+    <Product>CQRS Essentials Autofac integration</Product>
     <Description>Provides implementation for CQRS command, query and event dispatchers using Autofac.</Description>
     <Copyright></Copyright>
     <PackageLicenseUrl>https://github.com/michaldudak/cqrs-essentials/blob/master/LICENSE.md</PackageLicenseUrl>

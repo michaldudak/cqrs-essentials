@@ -7,7 +7,7 @@ namespace CqrsEssentials.Autofac
 		protected override void Load(ContainerBuilder builder)
 		{
 			builder.RegisterType<AutofacCommandDispatcher>().As<ICommandDispatcher>().InstancePerLifetimeScope();
-			builder.RegisterType<AutofacEventBus>().As<IEventBus>().InstancePerLifetimeScope();
+			builder.RegisterType<AutofacEventDispatcher>().As<IEventDispatcher>().InstancePerLifetimeScope();
 			builder.RegisterType<AutofacQueryDispatcher>().As<IQueryDispatcher>().InstancePerLifetimeScope();
 		}
 	}

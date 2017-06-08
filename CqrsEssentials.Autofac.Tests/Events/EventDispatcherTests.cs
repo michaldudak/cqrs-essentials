@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace CqrsEssentials.Autofac.Tests.Events
 {
-	public class EventBusTests
+	public class EventDispatcherTests
 	{
 		[SetUp]
 		public void BeforeEach()
@@ -17,12 +17,12 @@ namespace CqrsEssentials.Autofac.Tests.Events
 		public async Task GivenEventWithRegisteredSyncHandler_ShouldRunTheHandler()
 		{
 			// given
-			var eventBus = CreateEventBus(builder =>
+			var eventDispatcher = CreateEventDispatcher(builder =>
 				builder.RegisterType<TestEventHandler1>().As<IEventHandler<TestEvent>>());
 
 			// when
 			var anEvent = new TestEvent(1);
-			await eventBus.SendAsync(anEvent);
+			await eventDispatcher.DispatchAsync(anEvent);
 
 			// then
 			Assert.AreEqual(GlobalState.Current, 1);
@@ -32,12 +32,12 @@ namespace CqrsEssentials.Autofac.Tests.Events
 		public async Task GivenEventWithRegisteredAsyncHandler_ShouldRunTheHandler()
 		{
 			// given
-			var eventBus = CreateEventBus(builder =>
+			var eventDispatcher = CreateEventDispatcher(builder =>
 				builder.RegisterType<TestEventHandler1>().As<IAsyncEventHandler<TestEvent>>());
 
 			// when
 			var anEvent = new TestEvent(1);
-			await eventBus.SendAsync(anEvent);
+			await eventDispatcher.DispatchAsync(anEvent);
 
 			// then
 			Assert.AreEqual(GlobalState.Current, 1);
@@ -47,7 +47,7 @@ namespace CqrsEssentials.Autofac.Tests.Events
 		public async Task GivenEventWithTwoRegisteredSyncHandlers_ShouldRunBoth()
 		{
 			// given
-			var eventBus = CreateEventBus(builder =>
+			var eventDispatcher = CreateEventDispatcher(builder =>
 			{
 				builder.RegisterType<TestEventHandler1>().As<IEventHandler<TestEvent>>();
 				builder.RegisterType<TestEventHandler2>().As<IEventHandler<TestEvent>>();
@@ -55,7 +55,7 @@ namespace CqrsEssentials.Autofac.Tests.Events
 
 			// when
 			var anEvent = new TestEvent(2);
-			await eventBus.SendAsync(anEvent);
+			await eventDispatcher.DispatchAsync(anEvent);
 
 			// then
 			Assert.AreEqual(GlobalState.Current, 22);
@@ -65,7 +65,7 @@ namespace CqrsEssentials.Autofac.Tests.Events
 		public async Task GivenEventWithTwoRegisteredAsyncHandlers_ShouldRunBoth()
 		{
 			// given
-			var eventBus = CreateEventBus(builder =>
+			var eventDispatcher = CreateEventDispatcher(builder =>
 			{
 				builder.RegisterType<TestEventHandler1>().As<IAsyncEventHandler<TestEvent>>();
 				builder.RegisterType<TestEventHandler2>().As<IAsyncEventHandler<TestEvent>>();
@@ -73,7 +73,7 @@ namespace CqrsEssentials.Autofac.Tests.Events
 
 			// when
 			var anEvent = new TestEvent(2);
-			await eventBus.SendAsync(anEvent);
+			await eventDispatcher.DispatchAsync(anEvent);
 
 			// then
 			Assert.AreEqual(GlobalState.Current, 22);
@@ -83,7 +83,7 @@ namespace CqrsEssentials.Autofac.Tests.Events
 		public async Task GivenEventWithTwoRegisteredSyncAndAsyncHandlers_ShouldRunBoth()
 		{
 			// given
-			var eventBus = CreateEventBus(builder =>
+			var eventDispatcher = CreateEventDispatcher(builder =>
 			{
 				builder.RegisterType<TestEventHandler1>().As<IEventHandler<TestEvent>>();
 				builder.RegisterType<TestEventHandler2>().As<IAsyncEventHandler<TestEvent>>();
@@ -91,16 +91,16 @@ namespace CqrsEssentials.Autofac.Tests.Events
 
 			// when
 			var anEvent = new TestEvent(2);
-			await eventBus.SendAsync(anEvent);
+			await eventDispatcher.DispatchAsync(anEvent);
 
 			// then
 			Assert.AreEqual(GlobalState.Current, 22);
 		}
 
-		private static IEventBus CreateEventBus(Action<ContainerBuilder> registration)
+		private static IEventDispatcher CreateEventDispatcher(Action<ContainerBuilder> registration)
 		{
 			var container = TestHelpers.SetupDI(registration);
-			return container.Resolve<IEventBus>();
+			return container.Resolve<IEventDispatcher>();
 		}
 	}
 }

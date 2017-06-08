@@ -4,11 +4,11 @@ using Autofac;
 
 namespace CqrsEssentials.Autofac
 {
-	public class AutofacEventBus : IEventBus
+	public class AutofacEventDispatcher : IEventDispatcher
 	{
 		private readonly ILifetimeScope _lifetimeScope;
 
-		public AutofacEventBus(ILifetimeScope lifetimeScope)
+		public AutofacEventDispatcher(ILifetimeScope lifetimeScope)
 		{
 			_lifetimeScope = lifetimeScope;
 		}
@@ -21,7 +21,7 @@ namespace CqrsEssentials.Autofac
 		{
 		}
 
-		public async Task SendAsync<TEvent>(TEvent @event) where TEvent : IEvent
+		public async Task DispatchAsync<TEvent>(TEvent @event) where TEvent : IEvent
 		{
 			using (var scope = _lifetimeScope.BeginLifetimeScope())
 			{
