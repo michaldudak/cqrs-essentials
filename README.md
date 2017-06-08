@@ -81,6 +81,11 @@ public class PeopleController : Controller
 }
 ```
 
+### Installation
+
+The package is available on NuGet gallery as CqrsEssentials: https://www.nuget.org/packages/CQRSEssentials
+
+
 ## CQRS Essentials Autofac integration (CqrsEssentials.Autofac)
 This package implements `ICommandDispatcher`, `IQueryDispatcher` and `IEventDispatcher` using Autofac.
 
@@ -126,3 +131,7 @@ Usage:
   ```
 
 * Your handlers may be synchronous or asynchronous but the dispatcher is always asynchronous.
+
+### Installation
+
+The package is available on NuGet gallery as CqrsEssentials.Autofac: https://www.nuget.org/packages/CQRSEssentials.Autofac
