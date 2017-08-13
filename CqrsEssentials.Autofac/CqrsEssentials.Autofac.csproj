@@ -23,4 +23,8 @@
     <PackageReference Include="CqrsEssentials" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CqrsEssentials\CqrsEssentials.csproj" />
+  </ItemGroup>
+
 </Project>
