@@ -5,11 +5,11 @@
     <Authors>Michał Dudak &lt;michal@dudak.me&gt;</Authors>
     <Company />
     <Description>Provides interfaces for CQRS objects like commands, queries and events.</Description>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.0</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <Version>1.1.0</Version>
     <PackageId>CqrsEssentials</PackageId>
-    <PackageReleaseNotes>First stable public release.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added possibilty to call command and event handlers without knowing exact types command/event types at compile time.</PackageReleaseNotes>
     <PackageTags>CQRS, command, query, event, dispatcher</PackageTags>
     <Product>CQRS Essentials</Product>
     <PackageLicenseUrl>https://github.com/michaldudak/cqrs-essentials/blob/master/LICENSE.md</PackageLicenseUrl>

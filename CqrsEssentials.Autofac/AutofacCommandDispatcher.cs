@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 
@@ -27,21 +25,10 @@ namespace CqrsEssentials.Autofac
 		{
 			using (var scope = _lifetimeScope.BeginLifetimeScope())
 			{
-				IAsyncCommandHandler<TCommand> asyncHandler;
-				ICommandHandler<TCommand> syncHandler;
+				var asyncHandlerExists = scope.TryResolve(out IAsyncCommandHandler<TCommand> asyncHandler);
+				var syncHandlerExists = scope.TryResolve(out ICommandHandler<TCommand> syncHandler);
 
-				var asyncHandlerExists = scope.TryResolve(out asyncHandler);
-				var syncHandlerExists = scope.TryResolve(out syncHandler);
-
-				if (asyncHandlerExists && syncHandlerExists)
-				{
-					throw new MultipleCommandHandlersDefinedException(GetCommandName(command));
-				}
-
-				if (!asyncHandlerExists && !syncHandlerExists)
-				{
-					throw new HandlerNotFoundException(GetCommandName(command));
-				}
+				EnsureSingleHandlerExists(command, asyncHandlerExists, syncHandlerExists);
 
 				HandlerExecuting(command);
 
@@ -58,7 +45,6 @@ namespace CqrsEssentials.Autofac
 			}
 		}
 
-		// TODO: merge common parts with the method above
 		public async Task DispatchDynamicallyAsync(ICommand command, CancellationToken cancellationToken = default(CancellationToken))
 		{
 			using (var scope = _lifetimeScope.BeginLifetimeScope())
@@ -66,35 +52,36 @@ namespace CqrsEssentials.Autofac
 				var asyncCommandHandlerType = typeof(IAsyncCommandHandler<>).MakeGenericType(command.GetType());
 				var syncCommandHandlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
 
-				object asyncHandler;
-				object syncHandler;
+				var asyncHandlerExists = scope.TryResolve(asyncCommandHandlerType, out object asyncHandler);
+				var syncHandlerExists = scope.TryResolve(syncCommandHandlerType, out object syncHandler);
 
-				var asyncHandlerExists = scope.TryResolve(asyncCommandHandlerType, out asyncHandler);
-				var syncHandlerExists = scope.TryResolve(syncCommandHandlerType, out syncHandler);
-
-				if (asyncHandlerExists && syncHandlerExists)
-				{
-					throw new MultipleCommandHandlersDefinedException(GetCommandName(command));
-				}
-
-				if (!asyncHandlerExists && !syncHandlerExists)
-				{
-					throw new HandlerNotFoundException(GetCommandName(command));
-				}
+				EnsureSingleHandlerExists(command, asyncHandlerExists, syncHandlerExists);
 
 				HandlerExecuting(command);
 
 				if (asyncHandlerExists)
 				{
-					var result = asyncHandler.GetType().GetRuntimeMethod("HandleAsync", new[] { command.GetType(), typeof(CancellationToken) }).Invoke(asyncHandler, new object[] { command, cancellationToken });
-					await (Task)result;
+					await DynamicCallHelper.CallHandleAsync(asyncHandler, command, cancellationToken);
 				}
 				else
 				{
-					syncHandler.GetType().GetRuntimeMethod("Handle", new[] { command.GetType() }).Invoke(syncHandler, new[] { command });
+					DynamicCallHelper.CallHandle(syncHandler, command);
 				}
 
 				HandlerExecuted(command);
+			}
+		}
+
+		private void EnsureSingleHandlerExists(ICommand command, bool asyncHandlerExists, bool syncHandlerExists)
+		{
+			if (asyncHandlerExists && syncHandlerExists)
+			{
+				throw new MultipleCommandHandlersDefinedException(GetCommandName(command));
+			}
+
+			if (!asyncHandlerExists && !syncHandlerExists)
+			{
+				throw new HandlerNotFoundException(GetCommandName(command));
 			}
 		}
 

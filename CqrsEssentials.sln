@@ -1,13 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsEssentials", "CqrsEssentials\CqrsEssentials.csproj", "{C4A31925-BA2F-45B3-A66D-846C0D58976A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CqrsEssentials", "CqrsEssentials\CqrsEssentials.csproj", "{C4A31925-BA2F-45B3-A66D-846C0D58976A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsEssentials.Autofac", "CqrsEssentials.Autofac\CqrsEssentials.Autofac.csproj", "{0976306A-32E9-4E5B-BEC5-345FFDB6F154}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CqrsEssentials.Autofac", "CqrsEssentials.Autofac\CqrsEssentials.Autofac.csproj", "{0976306A-32E9-4E5B-BEC5-345FFDB6F154}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsEssentials.Autofac.Tests", "CqrsEssentials.Autofac.Tests\CqrsEssentials.Autofac.Tests.csproj", "{8395F289-E0CA-4483-8B45-D93B0A80F051}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CqrsEssentials.Autofac.Tests", "CqrsEssentials.Autofac.Tests\CqrsEssentials.Autofac.Tests.csproj", "{8395F289-E0CA-4483-8B45-D93B0A80F051}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{264BB76A-3156-4D06-BFC4-B7B2D8AE9776}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +38,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F899BB0C-51FE-4710-9149-E9346C325B07}
 	EndGlobalSection
 EndGlobal

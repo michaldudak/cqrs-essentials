@@ -1,16 +1,12 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
-using System.Collections.Generic;
-using System.Collections;
 
 namespace CqrsEssentials.Autofac
 {
 	public class AutofacEventDispatcher : IEventDispatcher
 	{
-		private const string HandleMethodName = "Handle";
-		private const string HandleAsyncMethodName = "HandleAsync";
-
 		private readonly ILifetimeScope _lifetimeScope;
 
 		public AutofacEventDispatcher(ILifetimeScope lifetimeScope)
@@ -72,13 +68,13 @@ namespace CqrsEssentials.Autofac
 
 				foreach (var asyncHandler in asyncHandlers)
 				{
-					var result = (Task)asyncHandler.GetType().GetRuntimeMethod(HandleAsyncMethodName, new[] { @event.GetType() }).Invoke(asyncHandler, new object[] { @event });
-					asyncTasks.Add(result);
+					var task = DynamicCallHelper.CallHandleAsync(asyncHandler, @event);
+					asyncTasks.Add(task);
 				}
 
 				foreach (var syncHandler in syncHandlers)
 				{
-					syncHandler.GetType().GetRuntimeMethod(HandleMethodName, new[] { @event.GetType() }).Invoke(syncHandler, new object[] { @event });
+					DynamicCallHelper.CallHandle(syncHandler, @event);
 				}
 
 				await Task.WhenAll(asyncTasks);
