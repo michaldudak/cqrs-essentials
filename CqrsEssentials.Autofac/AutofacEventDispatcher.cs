@@ -43,7 +43,7 @@ namespace CqrsEssentials.Autofac
 					syncHandler.Handle(@event);
 				}
 
-				await Task.WhenAll(asyncTasks);
+				await Task.WhenAll(asyncTasks).ConfigureAwait(false);
 
 				HandlersExecuted(@event);
 			}
@@ -77,7 +77,7 @@ namespace CqrsEssentials.Autofac
 					DynamicCallHelper.CallHandle(syncHandler, @event);
 				}
 
-				await Task.WhenAll(asyncTasks);
+				await Task.WhenAll(asyncTasks).ConfigureAwait(false);
 
 				HandlersExecuted(@event);
 			}

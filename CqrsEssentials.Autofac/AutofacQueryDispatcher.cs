@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -19,11 +18,8 @@ namespace CqrsEssentials.Autofac
 		{
 			using (var scope = _lifetimeScope.BeginLifetimeScope())
 			{
-				object asyncHandler;
-				object syncHandler;
-
-				var asyncHandlerExists = TryGetAsyncHandler(scope, query, out asyncHandler);
-				var syncHandlerExists = TryGetSyncHandler(scope, query, out syncHandler);
+				var asyncHandlerExists = TryGetAsyncHandler(scope, query, out var asyncHandler);
+				var syncHandlerExists = TryGetSyncHandler(scope, query, out var syncHandler);
 
 				if (asyncHandlerExists && syncHandlerExists)
 				{
@@ -43,7 +39,7 @@ namespace CqrsEssentials.Autofac
 						.GetRuntimeMethod("HandleAsync", new[] { query.GetType(), typeof(CancellationToken) })
 						.Invoke(asyncHandler, new object[] { query, cancellationToken });
 
-					return await (Task<TResult>)result;
+					return await ((Task<TResult>)result).ConfigureAwait(false);
 				}
 				
 				result = syncHandler.GetType().GetRuntimeMethod("Handle", new[] { query.GetType() }).Invoke(syncHandler, new object[] { query });

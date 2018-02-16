@@ -34,7 +34,7 @@ namespace CqrsEssentials.Autofac
 
 				if (asyncHandlerExists)
 				{
-					await asyncHandler.HandleAsync(command, cancellationToken);
+					await asyncHandler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 				}
 				else
 				{
@@ -61,7 +61,7 @@ namespace CqrsEssentials.Autofac
 
 				if (asyncHandlerExists)
 				{
-					await DynamicCallHelper.CallHandleAsync(asyncHandler, command, cancellationToken);
+					await DynamicCallHelper.CallHandleAsync(asyncHandler, command, cancellationToken).ConfigureAwait(false);
 				}
 				else
 				{
@@ -72,7 +72,7 @@ namespace CqrsEssentials.Autofac
 			}
 		}
 
-		private void EnsureSingleHandlerExists(ICommand command, bool asyncHandlerExists, bool syncHandlerExists)
+		private static void EnsureSingleHandlerExists(ICommand command, bool asyncHandlerExists, bool syncHandlerExists)
 		{
 			if (asyncHandlerExists && syncHandlerExists)
 			{

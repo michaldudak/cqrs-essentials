@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 (2018-02-16)
+### Changes:
+Added `ContinueAwait(false)` to all `await` instructions.
+
 ## 1.1.0 (2017-08-13)
 ### Additions:
 * Added possibilty to call command and event handlers without knowing exact types command/event types at compile time.

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
     <PackageId>CqrsEssentials.Autofac</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Michał Dudak &lt;michal@dudak.me&gt;</Authors>
     <Company />
     <Product>CQRS Essentials Autofac integration</Product>
@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.0" />
+    <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="CqrsEssentials" Version="1.1.0" />
   </ItemGroup>
 
